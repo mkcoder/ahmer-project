@@ -1,0 +1,40 @@
+username = str(input("enter username"))
+password = str(input("enter password"))
+list_of_username = ["ahmer20" , "huzaifa21" , "khalil31"]
+list_of_password = ["ahmer123" , "hades123" , "tesla2021"]
+Amount = 100000
+check_number_of_elements = len(list_of_username)
+
+#def user_details(self, username , password , Amount):
+ #   print("username:" , username )
+  #  print("password:" , password)
+   # print("Amount:" , Amount)
+
+
+if username in list_of_username and password in list_of_password:
+    if list_of_username.index(username) == list_of_password.index(password):
+        print(f"""Pick a Choice!
+ 1. Check account details
+ 2. Cash withdrawl
+ 3. Cash Deposit 
+\n
+""")
+        choose = input("")
+        if choose == "1" :
+            print(f'Username: {username} \n Password: {password} \n Amount:  {Amount}')
+            
+        elif choose == "2" :
+            withdrawl = int(input("enter amount to withdrawl"))
+            if withdrawl <= Amount:
+                Amount -= withdrawl
+                print("Your remaining balance is: ", Amount)
+            else:
+                print("insufficient balance")
+        
+        elif choose == "3" :
+            deposit = int(input("enter amount to deposit"))
+            Amount += deposit
+    else:
+        print("incorrect password")
+else:
+    print("incorrect username")
