@@ -1,49 +1,79 @@
-from websracperClass import WebScraper  # Import WebScraper class from web_scraper.py
-from databaseClass import Database  # Import Database class from database.py
+from databaseClass import Database
+from webscraperClass import WebScraper
 
-# Initialize Database
-db = Database()
+if __name__ == "__main__":
+    # Initialize Database
+    db = Database()
 
-# Initialize WebScraper with the database object
-scraper = WebScraper(db)
+    # Initialize WebScraper with the database object
+    scraper = WebScraper(db)
 
-# Example list of websites with their categories
-websites = [
-    {
-        "base_url": "https://silayipret.com", 
-        "categories": [
-            "https://silayipret.com/collections/new-arrivals",
-            "https://silayipret.com/collections/fusion",
-            "https://silayipret.com/collections/2pc-stitched-printed-khaddar",
-            "https://silayipret.com/collections/winter-unstitched",
-            "",
-            ""
-        ]
-    },
-    # {
-    #     "base_url": "https://example.com", 
-    #     "categories": [
-    #         "/products/dresses",
-    #         "/products/tops",
-    #         "/products/skirts"
-    #     ]
-    # }
-]
+        # List of website configurations
+    website_configs = [
+        # {
+        #     "base_url": "https://silayipret.com",
+        #     "collection_link_class": "header__menu-item header__menu-item--top list-menu__item focus-inset",
+        #     "product_link_class": "full-unstyled-link",
+        #     "product_name":"product__title",
+        #     "price_class": "price__regular",
+        #     "size_class": "js product-form__input variant-input-wrapper",
+        #     "availability_class": "product-form__buttons",
+        #     "description_class": "product__description rte",
+        #     "image_class": "product__media image-animate media media--adapt media-mobile--adapt_first"
+        # }
+        # ,
+        # {
+        #     "base_url": "https://wearochre.com",
+        #     "collection_link_class": "t4s-lh-1 t4s-d-flex t4s-align-items-center t4s-pr",
+        #     "product_link_class": "t4s-full-width-link",
+        #     "product_name":"t4s-product__info-container t4s-product__info-container--sticky",
+        #     "price_class": "t4s-product-price",
+        #     "size_class": "t4s-swatch__list",
+        #     "availability_class": "t4s-btn-atc_text",
+        #     "description_class": "t4s-product__description t4s-rte",
+        #     "image_class": "t4s_ratio t4s-product__media"
+        # }
+        # ,
+        # {
+        #     "base_url": "https://www.noura.com.pk",
+        #     "collection_link_class": "menu-drawer__menu-item list-menu__item link link--text focus-inset",
+        #     "product_link_class": "full-unstyled-link",
+        #     "product_name":"product__title",
+        #     "price_class": "price__regular",
+        #     "size_class": "js product-form__input product-form__input--pill",
+        #     "availability_class": "product-form__buttons",
+        #     "description_class": "product__description rte quick-add-hidden",
+        #     "image_class": "product__media media media--transparent"
+        # }
+        # ,
+        {
+            "base_url": "https://www.kayseria.com",
+            "collection_link_class": "site-nav-link m-zero link link--text focus-inset link-effect caption-large",
+            "product_link_class": "card-link",
+            "product_name":"productView-moreItem cust-title",
+            "price_class": "price-item price-item--sale",
+            "size_class": "js product-form__input clearfix",
+            "availability_class": "product-form__buttons",
+            "description_class": "productView-moreItem cust-desc",
+            "image_class": "media"
+        }
+        # ,
+        # {
+        #     "base_url": "https://jazmin.pk",
+        #     "collection_link_class": "header-sidebar__linklist-button h6 heading_all_caps_size",
+        #     "product_link_class": "product-card__media",
+        #     "product_name":"product-info__block-list",
+        #     "price_class": "money",
+        #     "size_class": "variant-picker__option v-stack gap-2 no-js:hidden",
+        #     "availability_class": "button button--outline w-full",
+        #     "description_class": "product-info__block-group accordion-group",
+        #     "image_class": "product-gallery__media snap-center is-initial" 
+        # }
+            ]
 
-# Loop through each website and scrape the categories
-for website in websites:
-    base_url = website["base_url"]
-    categories = website["categories"]
-    print(f"Scraping website: {base_url}")
-    
-    # Scrape product links for all categories of the current website
-    product_links = scraper.scrape_multiple_categories(base_url, categories)
-    
-    # Optionally print the links that were stored in the database
-    print(f"Saved Product Links for {base_url}:")
-    saved_links = db.get_all_product_links()
-    for link in saved_links:
-        print(link)
+    # Scrape multiple websites
+    scraper.scrape_multiple_websites(website_configs)
+    # scraper.db.save_product_details(["a", "b", "c", "d"])
 
-# Close the database connection when done
-db.close()
+    # Close the database connection when done
+    db.close()
