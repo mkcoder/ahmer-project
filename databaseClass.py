@@ -2,8 +2,7 @@ import mysql.connector
 from mysql.connector import Error
 
 class Database:
-    def __init__(self, host="localhost", user="root", password="Newton 123", database="cloth_design_database"):
-        """Initialize the database connection."""
+    def __init__(self, host="localhost", user="root", password="Newton_123", database="cloth_design_database"):
         try:
             self.conn = mysql.connector.connect(
                 host=host,
@@ -20,23 +19,23 @@ class Database:
             self.conn = None
             self.cursor = None
 
-    def create_tables(self):
-        """Create the tables if they don't exist."""
-        if self.conn and self.cursor:
-            # Create product_details table
-            self.cursor.execute("""
-                CREATE TABLE IF NOT EXISTS product_detail (
-                    Product_id INT AUTO_INCREMENT PRIMARY KEY,
-                    Product_image Text,
-                    Product_link VARCHAR(255) UNIQUE NOT NULL PRIMARY KEY,
-                    Product_price VARCHAR(255),
-                    Product_size TEXT,
-                    Product_name VARCHAR(255)
-                )
-            """)
+    # def create_tables(self):
+    #     """Create the tables if they don't exist."""
+    #     if self.conn and self.cursor:
+    #         # Create product_details table
+    #         self.cursor.execute("""
+    #             CREATE TABLE IF NOT EXISTS product_detail (
+    #                 Product_id INT AUTO_INCREMENT PRIMARY KEY,
+    #                 Product_image Text,
+    #                 Product_link VARCHAR(255) UNIQUE NOT NULL PRIMARY KEY,
+    #                 Product_price VARCHAR(255),
+    #                 Product_size TEXT,
+    #                 Product_name VARCHAR(255)
+    #             )
+    #         """)
 
     def is_link_existing(self, link):
-        """Check if the product link already exists in both tables."""
+        #Check if the product link already exists in both tables
         if not self.conn or not self.cursor:
             return False
 
@@ -96,7 +95,7 @@ class Database:
 
 
     def save_product_links(self, product_links):
-        """Save product links to both tables."""
+        # Save product links to both tables.
         if not self.conn or not self.cursor:
             return
 
@@ -125,29 +124,23 @@ class Database:
             #     print(f"Skipping link (not in description): {detail['url']}")
 
             try:
-                # Update product_detail
-                # self.cursor.execute("""
-                # INSERT INTO product_detail(product_name, product_price, product_size, product_image)
-                # values("owais", 69420, 9000, 'abc');
-                # """)
                 #inserting in the database tablename(product-detail)
-                self.cursor.execute("""
-                INSERT INTO product_detail(product_name, product_price, product_size, product_image, product_link)
-                values("%s", %s, %s, %s,%s); """, (detail["name"], (detail["price"]), ','.join(detail["size"]), detail["image"], detail["url"]))
-                #inserting in the database tablename(product-description)
-                self.cursor.execute("""
-                INSERT INTO product_description(product_description, product_link)
-                values("%s", %s); """, (detail["description"], (detail["url"])))
+                # self.cursor.execute("""
+                # INSERT INTO product_detail(product_name, product_price, product_size, product_image, product_link)
+                # values("%s", %s, %s, %s,%s); """, (detail["name"], (detail["price"]), ','.join(detail["size"]), detail["image"], detail["url"]))
+                # #inserting in the database tablename(product-description)
+                # self.cursor.execute("""
+                # INSERT INTO product_description(product_description, product_link)
+                # values("%s", %s); """, (detail["description"], (detail["url"])))
                 self.conn.commit()
 
             except Error as e:
                 print(f"SQL Error: {e}")
 
-        # self.conn.commit()
         print("All product details saved.")
 
     def get_all_product_links(self):
-        """Retrieve all product links from both tables."""
+        #Retrieve all product links from both tables.
         if not self.conn or not self.cursor:
             return []
 
@@ -162,7 +155,7 @@ class Database:
         return all_links
 
     def close(self):
-        """Close the database connection."""
+        # Close the database connection.
         if self.conn:
             self.conn.close()
             
